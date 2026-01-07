@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSHAN - Personalized Indian Meal Plans</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        nav {
+            background-color: #4a7c59;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 15px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        .cta-button {
+            background-color: #d4a574;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hero {
+            background: url('https://images.unsplash.com/photo-1601050690597-df0568f70950') center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        section {
+            padding: 50px 0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .plans {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .plan {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+        .plan.popular {
+            background: #f0f8f0;
+            border-color: #4a7c59;
+        }
+        footer {
+            background-color: #4a7c59;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .journey-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+        }
+        .journey-content {
+            background: white;
+            width: 80%;
+            max-width: 600px;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .step {
+            background: #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            flex: 1;
+            margin: 5px;
+            text-align: center;
+        }
+        .step.active {
+            background: #4a7c59;
+            color: white;
+        }
+        .progress {
+            display: flex;
+        }
+        form label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background: #4a7c59;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button {
+            background: #ccc;
+            color: #333;
+        }
+        .success {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <ul>
+        <div>
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#how">How It Works</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="cta-button" onclick="startJourney()">Get Started</button>
+    </ul>
+</nav>
+
+<section id="home" class="hero">
+    <h1>Healthy Indian Meals Delivered</h1>
+    <p>Macro-balanced meals crafted by certified nutritionists</p>
+    <button class="cta-button" onclick="startJourney()">Start Your Journey</button>
+</section>
+
+<section id="services" class="container">
+    <h2>Our Services</h2>
+    <div class="card">
+        Personalized Indian meals, nutritionist consultations, daily fresh delivery.
+    </div>
+</section>
+
+<section id="how" class="container">
+    <h2>How It Works</h2>
+    <div class="card">
+        <ol>
+            <li>Share your details</li>
+            <li>Select health goals</li>
+            <li>Choose a plan</li>
+            <li>Receive meals daily</li>
+        </ol>
+    </div>
+</section>
+
+<section id="about" class="container">
+    <h2>About POSHAN</h2>
+    <div class="card">
+        POSHAN combines nutrition science with authentic Indian flavors.
+    </div>
+</section>
+
+<section id="contact" class="container">
+    <h2>Contact</h2>
+    <div class="card">
+        Email: info@poshan.com<br>
+        Phone: +91-123-456-7890
+    </div>
+</section>
+
+<div id="journey-modal" class="journey-modal">
+    <div class="journey-content">
+        <div class="progress">
+            <div class="step active" id="s1">Info</div>
+            <div class="step" id="s2">Goals</div>
+            <div class="step" id="s3">Plan</div>
+            <div class="step" id="s4">Done</div>
+        </div>
+
+        <form id="form">
+            <div id="f1">
+                <label>Name<input required></label>
+                <label>Email<input type="email" required></label>
+                <button type="button" onclick="next(1)">Next</button>
+            </div>
+            <div id="f2" style="display:none">
+                <label>Goal<select><option>Weight Loss</option></select></label>
+                <button type="button" class="back-button" onclick="prev(2)">Back</button>
+                <button type="button" onclick="next(2)">Next</button>
+            </div>
+            <div id="f3" style="display:none">
+                <div class="plans">
+                    <div class="plan">
+                        2 Meals – ₹5000
+                        <input type="radio" name="plan" required>
+                    </div>
+                    <div class="plan popular">
+                        3 Meals – ₹7500
+                        <input type="radio" name="plan" required>
+                    </div>
+                </div>
+                <button type="button" class="back-button" onclick="prev(3)">Back</button>
+                <button type="button" onclick="next(3)">Next</button>
+            </div>
+            <div id="f4" style="display:none">
+                <p>We’ll contact you within 24 hours.</p>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="success" class="success">
+    <h2>Thank You!</h2>
+    <p>Your plan is being prepared.</p>
+</div>
+
+<footer>
+    © 2023 POSHAN
+</footer>
+
+<script>
+let step = 1;
+function startJourney() {
+    document.getElementById("journey-modal").style.display = "block";
+}
+function next(n) {
+    document.getElementById("f"+n).style.display="none";
+    document.getElementById("f"+(n+1)).style.display="block";
+}
+function prev(n) {
+    document.getElementById("f"+n).style.display="none";
+    document.getElementById("f"+(n-1)).style.display="block";
+}
+document.getElementById("form").onsubmit = e => {
+    e.preventDefault();
+    document.getElementById("journey-modal").style.display="none";
+    document.getElementById("success").style.display="block";
+};
+</script>
+
+</body>
+</html>
+      
